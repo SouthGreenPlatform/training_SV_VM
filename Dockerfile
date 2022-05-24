@@ -12,10 +12,10 @@ RUN pip install bash_kernel
 RUN python3 -m bash_kernel.install
 
 #Install for non-specific ONT 
-RUN apt-get install -y unzip wget build-essential cmake git-all tar gzip curl zlibc libgsl libbz2 liblzma perl
+RUN apt-get install -y unzip wget build-essential cmake git-all tar gzip curl
 
 #Dedicated install to SV analyses, packed
-RUN apt-get install -y minimap2 sniffles seqtk assemblytics samtools bedtools vcftools bctools
+RUN apt-get install -y minimap2 sniffles seqtk samtools bedtools vcftools bcftools
 RUN python3 -m pip install matplotlib pandas
 
 RUN conda install -c bioconda mummer 
