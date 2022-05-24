@@ -12,15 +12,16 @@ RUN pip install bash_kernel
 RUN python3 -m bash_kernel.install
 
 #Install for non-specific ONT 
-RUN apt-get install -y unzip wget build-essential cmake git-all tar gzip curl
+RUN apt-get install -y unzip wget build-essential cmake git-all tar gzip curl zlib1g-dev libncurses-dev
 
 #Dedicated install to SV analyses, packed
-RUN apt-get install -y minimap2 sniffles seqtk samtools bedtools vcftools bcftools
-RUN python3 -m pip install matplotlib pandas
+RUN apt-get install -y minimap2 seqtk samtools bedtools vcftools bcftools
+RUN python3 -m pip install matplotlib pandas sniffles
 
 RUN conda install -c bioconda mummer 
 RUN conda install -c bioconda gatk4
 RUN conda create -n syri_env -c bioconda syri
+RUN conda install -c bioconda breakdancer
 
 #Dedicated install to SV analyses, unpacked
 RUN mkdir -p /opt/
@@ -28,13 +29,13 @@ RUN mkdir -p /opt/
 ## bwa mem2
 RUN mkdir -p /opt/bwa-mem2
 RUN cd /opt/bwa-mem2 && curl -L https://github.com/bwa-mem2/bwa-mem2/releases/download/v2.0pre2/bwa-mem2-2.0pre2_x64-linux.tar.bz2 | tar jxf -
-RUN ln -s /opt/bwa-mem2/bwa-mem2-2.0pre2_x64-linux/bwa-mem2 /usr/bin/bwa-mem2
+RUN ln -s /opt/bwa-mem2/bwa-mem2-2.0pre2_x64-linux/bwa-mem2.avx2 /usr/bin/bwa-mem2
 
 ## breakdancer
-RUN cd /opt && git clone --recursive https://github.com/genome/breakdancer.git
-RUN cd /opt/breakdancer && mkdir build
-RUN cd /opt/breakdancer/build && cmake .. -DCMAKE_BUILD_TYPE=release -DCMAKE_INSTALL_PREFIX=/usr/local
-RUN cd /opt/breakdancer/build && make && make install
+#RUN cd /opt && git clone --recursive https://github.com/genome/breakdancer.git
+#RUN cd /opt/breakdancer && mkdir build
+#RUN cd /opt/breakdancer/build && cmake .. -DCMAKE_BUILD_TYPE=release -DCMAKE_INSTALL_PREFIX=/usr/local
+#RUN cd /opt/breakdancer/build && make && make install
 
 
 
