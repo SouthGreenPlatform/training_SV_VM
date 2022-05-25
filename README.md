@@ -1,4 +1,4 @@
-# App TrainingONT: Biosphere BASE environment for ONT analysis using Jupyter
+# App TrainingSV: Biosphere BASE environment for SV analysis using Jupyter
 
 ## Description
 
@@ -19,21 +19,22 @@ Main jupyter stacks are:
 
 ## Tools
 
+* [Bash kernel for jupyter](https://pypi.org/project/bash_kernel/)
+* [Pandas](https://pypi.org/project/pandas/)
+* [Matplotlib](https://pypi.org/project/matplotlib/)
 * [Jupyter notebook/lab](https://jupyter.org)
 * [seqtk](https://github.com/lh3/seqtk)
-* [NanoPlot](https://github.com/wdecoster/NanoPlot)
-* [NanoComp](https://github.com/wdecoster/nanocomp)
 * [Minimap2](https://github.com/lh3/minimap2)
+* [BWA-MEM2](https://github.com/bwa-mem2/bwa-mem2)
+* [Samtools/BCFtools](http://www.htslib.org/)
+* [BEDtools](https://bedtools.readthedocs.io/en/latest/)
+* [VCFtools](https://vcftools.github.io/index.html)
+* [GATK](https://gatk.broadinstitute.org/hc/en-us)
+* [Syri](https://github.com/schneebergerlab/syri)
+* [BreakDancer](https://github.com/genome/breakdancer)
 * [Sniffles](https://github.com/fritzsedlazeck/Sniffles)
-* [SURVIVOR](https://github.com/fritzsedlazeck/SURVIVOR/)
-* [Raven](https://github.com/lbcb-sci/raven)
-* [Flye](https://github.com/fenderglass/Flye)
-* [RagTag](https://github.com/malonge/RagTag)
-* [Racon](https://github.com/isovic/racon)
-* [Assemblytics](http://assemblytics.com/)
-* [Bandage](https://github.com/rrwick/Bandage)
 * [Mummer](https://github.com/mummer4/mummer)
-* [Assembly-Stats](https://github.com/sanger-pathogens/assembly-stats)
+
 
 
 
@@ -46,7 +47,7 @@ Main jupyter stacks are:
 
 * Francois Sabot [SouthGreen Platform](https://southgreen.fr)
 * Julie Orjuela-Bouniol [SouthGreen Platform](https://southgreen.fr)
-* Gauthier Sarah [SouthGreen Platform](https://southgreen.fr)
+
 
 ## App data
 

@@ -31,11 +31,6 @@ RUN mkdir -p /opt/bwa-mem2
 RUN cd /opt/bwa-mem2 && curl -L https://github.com/bwa-mem2/bwa-mem2/releases/download/v2.0pre2/bwa-mem2-2.0pre2_x64-linux.tar.bz2 | tar jxf -
 RUN ln -s /opt/bwa-mem2/bwa-mem2-2.0pre2_x64-linux/bwa-mem2.avx2 /usr/bin/bwa-mem2
 
-## breakdancer
-#RUN cd /opt && git clone --recursive https://github.com/genome/breakdancer.git
-#RUN cd /opt/breakdancer && mkdir build
-#RUN cd /opt/breakdancer/build && cmake .. -DCMAKE_BUILD_TYPE=release -DCMAKE_INSTALL_PREFIX=/usr/local
-#RUN cd /opt/breakdancer/build && make && make install
 
 
 
