@@ -94,20 +94,19 @@ RUN conda clean --all --yes
 RUN conda install -c bioconda perl-config-general perl-gd perl-math-bezier perl-math-round perl-math-vecstat perl-params-validate perl-readonly perl-set-intspan circos
 
 RUN mkdir -p /opt/
-RUN cd /opt/
-RUN wget https://snpeff.blob.core.windows.net/versions/snpEff_latest_core.zip
-RUN unzip snpEff_latest_core.zip
-RUN ln -s /opt/snpEff_latest_core/snpEff/snpEff.jar /usr/bin/snpEff.jar
+RUN cd /opt/ && wget https://snpeff.blob.core.windows.net/versions/snpEff_latest_core.zip
+RUN unzip /opt/snpEff_latest_core.zip
+RUN mv snpEff /opt/
+RUN ln -s /opt/snpEff/snpEff.jar /usr/bin/snpEff.jar
+RUN ln -s /opt/snpEff/SnpSift.jar /usr/bin/SnpSift.jar
 
-ENV PATH="${PATH}:/opt/conda/envs/:/opt/conda/envs/assembly-stats/bin:/opt/conda/envs/blobtools/bin:/opt/conda/envs/flye/bin:/opt/conda/envs/kraken2/bin:/opt/conda/envs/mummer/bin:/opt/conda/envs/nanoplot/bin:/opt/conda/envs/quast/bin:/opt/conda/envs/ragtag/bin:/opt/conda/envs/blast/bin:/opt/conda/envs/diamond/bin:/opt/conda/envs/nanocomp/bin:/opt/conda/envs/racon/bin:/opt/conda/envs/raven-assembler/bin:/opt/conda/envs/checkv/bin:/opt/conda/envs/medaka/bin:/opt/conda/envs/gatk4/bin:/opt/conda/envs/syri_env/bin:/opt/conda/envs/breakdancer/bin"
-
-#Dedicated install to ONT analyses, unpacked
-RUN mkdir -p /opt/
 
 ## bwa mem2
 RUN mkdir -p /opt/bwa-mem2
 RUN cd /opt/bwa-mem2 && curl -L https://github.com/bwa-mem2/bwa-mem2/releases/download/v2.0pre2/bwa-mem2-2.0pre2_x64-linux.tar.bz2 | tar jxf -
 RUN ln -s /opt/bwa-mem2/bwa-mem2-2.0pre2_x64-linux/bwa-mem2.avx2 /usr/bin/bwa-mem2
+
+ENV PATH="${PATH}:/opt/conda/envs/:/opt/conda/envs/assembly-stats/bin:/opt/conda/envs/blobtools/bin:/opt/conda/envs/flye/bin:/opt/conda/envs/kraken2/bin:/opt/conda/envs/mummer/bin:/opt/conda/envs/nanoplot/bin:/opt/conda/envs/quast/bin:/opt/conda/envs/ragtag/bin:/opt/conda/envs/blast/bin:/opt/conda/envs/diamond/bin:/opt/conda/envs/nanocomp/bin:/opt/conda/envs/racon/bin:/opt/conda/envs/raven-assembler/bin:/opt/conda/envs/checkv/bin:/opt/conda/envs/medaka/bin:/opt/conda/envs/gatk4/bin:/opt/conda/envs/syri_env/bin:/opt/conda/envs/breakdancer/bin"
 
 
 
