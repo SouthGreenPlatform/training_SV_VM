@@ -7,10 +7,9 @@ version="1.0"
 
 %environment
 
-export PATH="${PATH}:/usr/local/miniconda/miniconda3/envs/:/usr/local/miniconda/miniconda3/envs/assembly-stats/bin:/usr/local/miniconda/miniconda3/envs/blobtools/bin:/usr/local/miniconda/miniconda3/envs/flye/bin:/usr/local/miniconda/miniconda3/envs/kraken2/bin:/usr/local/miniconda/miniconda3/envs/mummer/bin:/usr/local/miniconda/miniconda3/envs/nanoplot/bin:/usr/local/miniconda/miniconda3/envs/quast/bin:/usr/local/miniconda/miniconda3/envs/ragtag/bin:/usr/local/miniconda/miniconda3/envs/nanocomp/bin:/usr/local/miniconda/miniconda3/envs/racon/bin:/usr/local/miniconda/miniconda3/envs/raven-assembler/bin:/usr/local/miniconda/miniconda3/envs/medaka/bin:/usr/local/miniconda/miniconda3/envs/gatk4/bin:/usr/local/miniconda/miniconda3/envs/syri_env/bin:/usr/local/miniconda/miniconda3/envs/breakdancer/bin:/usr/local/miniconda/miniconda3/envs/kraken2/bin:/usr/local/miniconda/miniconda3/envs/blast/bin:/usr/local/miniconda:/miniconda3/envs/diamond/bin:/usr/local/miniconda/miniconda3/envs/sourmash/bin:/usr/local/miniconda/miniconda3/envs/kaiju/bin:/usr/local/miniconda/miniconda3/envs/krona/bin:/usr/local/miniconda/miniconda3/envs/spades/bin:/usr/local/miniconda/miniconda3/envs/fastqc/bin:/usr/local/miniconda/miniconda3/envs/multiqc/bin"
+export PATH="${PATH}:/usr/local/miniconda/miniconda3/envs/:/usr/local/miniconda/miniconda3/envs/assembly-stats/bin:/usr/local/miniconda/miniconda3/envs/blobtools/bin:/usr/local/miniconda/miniconda3/envs/flye/bin:/usr/local/miniconda/miniconda3/envs/kraken2/bin:/usr/local/miniconda/miniconda3/envs/mummer/bin:/usr/local/miniconda/miniconda3/envs/nanoplot/bin:/usr/local/miniconda/miniconda3/envs/quast/bin:/usr/local/miniconda/miniconda3/envs/ragtag/bin:/usr/local/miniconda/miniconda3/envs/nanocomp/bin:/usr/local/miniconda/miniconda3/envs/racon/bin:/usr/local/miniconda/miniconda3/envs/raven-assembler/bin:/usr/local/miniconda/miniconda3/envs/medaka/bin:/usr/local/miniconda/miniconda3/envs/gatk4/bin:/usr/local/miniconda/miniconda3/envs/syri_env/bin:/usr/local/miniconda/miniconda3/envs/breakdancer/bin:/usr/local/miniconda/miniconda3/envs/kraken2/bin:/usr/local/miniconda/miniconda3/envs/blast/bin:/usr/local/miniconda:/miniconda3/envs/diamond/bin:/usr/local/miniconda/miniconda3/envs/sourmash/bin:/usr/local/miniconda/miniconda3/envs/kaiju/bin:/usr/local/miniconda/miniconda3/envs/krona/bin:/usr/local/miniconda/miniconda3/envs/spades/bin"
 
-export CON
-DARC="/.condarc"
+export CONDARC="/.condarc"
 export LC_ALL=C
 
 %post
@@ -42,6 +41,7 @@ ln -s /opt/bwa-mem2/bwa-mem2-2.0pre2_x64-linux/bwa-mem2.avx2 /usr/bin/bwa-mem2
 mkdir -p /opt/
 cd /opt/ && wget https://snpeff.blob.core.windows.net/versions/snpEff_latest_core.zip
 unzip /opt/snpEff_latest_core.zip
+mv snpEff /opt/
 ln -s /opt/snpEff/snpEff.jar /usr/bin/snpEff.jar
 ln -s /opt/snpEff/SnpSift.jar /usr/bin/SnpSift.jar
 
@@ -59,14 +59,6 @@ conda config --add channels bioconda
 conda config --add channels conda-forge
 
 conda update --all --yes
-
-conda create -n fastqc --no-default-packages
-conda install fastqc -n fastqc
-conda clean --all --yes
-
-conda create -n multiqc --no-default-packages
-conda install multiqc -n multiqc
-conda clean --all --yes
 
 conda create -n flye --no-default-packages
 conda install flye=2.9 -n flye
