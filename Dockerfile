@@ -1,10 +1,12 @@
+# An example of extension of the jupyter stack 'datascience-notebook'
+# with pip modules ('pip install ...') and their system dependencies ('apt-get install -y ...')
 FROM jupyter/datascience-notebook
 USER root
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update -y
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y apt-utils python3-pyqt5 pyqt5-dev-tools qttools5-dev-tools gnupg2
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y unzip wget build-essential cmake git-all tar gzip curl zlib1g-dev libncurses-dev
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y minimap2 seqtk samtools bedtools vcftools bcftools assemblytics bandage
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y unzip wget build-essential cmake git-all tar gzip
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y minimap2 seqtk bedtools vcftools bcftools assemblytics bandage
 
 RUN wget -O- https://mirror.oxfordnanoportal.com/apt/ont-repo.pub | apt-key add -
 RUN echo 'deb http://mirror.oxfordnanoportal.com/apt focal-stable non-free' | tee /etc/apt/sources.list.d/nanoporetech.sources.list
@@ -20,6 +22,9 @@ RUN python3 -m pip install PyQt5 ete3 owlready2 pyproteinsExt ipympl jupyterlab
 RUN python3 -m pip install --upgrade ipython
 RUN python3 -m pip install bash_kernel
 RUN python3 -m bash_kernel.install
+#RUN python3 -m pip install medaka
+RUN python3 -m pip install duplex-tools
+RUN python3 -m pip install medaka
 
 RUN conda update --all --yes
 
@@ -43,8 +48,8 @@ RUN conda create -n ragtag --no-default-packages
 RUN conda install ragtag -n ragtag
 RUN conda clean --all --yes
 
-RUN conda create -n mummer --no-default-packages
-RUN conda install mummer -n mummer
+RUN conda create -n mummer4 --no-default-packages
+RUN conda install mummer4 -n mummer4
 RUN conda clean --all --yes
 
 RUN conda create -n racon --no-default-packages
@@ -64,58 +69,81 @@ RUN conda install python=3.7 quast -n quast
 RUN conda clean --all --yes
 
 RUN conda create -n blobtools --no-default-packages
-RUN conda install blobtools -n blobtools
+RUN conda install blobtools pysam -n blobtools
 RUN conda clean --all --yes
+
+#RUN conda create -n kraken2 --no-default-packages
+#RUN conda install kraken2 -n kraken2
+#RUN conda clean --all --yes
+
+#RUN conda create -n porechop --no-default-packages
+#RUN conda install porechop -n porechop
+#RUN conda clean --all --yes
 
 RUN conda create -n diamond --no-default-packages
 RUN conda install diamond -n diamond
 RUN conda clean --all --yes
 
-RUN conda create -n blast --no-default-packages
-RUN conda install blast -n blast
-RUN conda clean --all --yes
+#RUN conda create -n blast --no-default-packages
+#RUN conda install blast -n blast
+#RUN conda clean --all --yes
 
-RUN conda create -n medaka --no-default-packages
-RUN conda install medaka -n medaka
-RUN conda clean --all --yes
+#RUN conda create -n sourmash --no-default-packages
+#RUN conda install sourmash -n sourmash
+#RUN conda clean --all --yes
 
-RUN conda create -n gatk4 --no-default-packages
-RUN conda install gatk4 -n gatk4
-RUN conda clean --all --yes
+#RUN conda create -n kaiju --no-default-packages
+#RUN conda install kaiju -n kaiju
+#RUN conda clean --all --yes
 
-RUN conda create -n breakdancer --no-default-packages
-RUN conda install breakdancer -n breakdancer
-RUN conda clean --all --yes
+#RUN conda create -n krona --no-default-packages
+#RUN conda install krona -n krona
+#RUN conda clean --all --yes
+
+#RUN conda create -n spades --no-default-packages
+#RUN conda install spades -n spades
+#RUN conda clean --all --yes
+
+#RUN conda create -n checkv --no-default-packages
+#RUN conda install checkv -n checkv
+#RUN conda clean --all --yes
 
 RUN conda create -n syri_env --no-default-packages
 RUN conda install syri -n syri_env
+RUN conda install plotsr -n syri_env
 RUN conda clean --all --yes
 
-RUN conda install -c bioconda perl-config-general perl-gd perl-math-bezier perl-math-round perl-math-vecstat perl-params-validate perl-readonly perl-set-intspan circos
 
-RUN conda create -n fastqc --no-default-packages
-RUN conda install fastqc -n fastqc
+RUN mkdir -p /opt
+RUN cd /opt
+RUN wget https://github.com/samtools/samtools/releases/download/1.11/samtools-1.11.tar.bz2 && \
+        tar jxf samtools-1.11.tar.bz2 && \
+        rm samtools-1.11.tar.bz2 && \
+        cd samtools-1.11 && \
+        ./configure  && \
+        make && \
+        make install
+        
+
+RUN conda create -n busco --no-default-packages
+RUN conda install r-plyr -n busco
+RUN conda install busco=5.5.0 -n busco
 RUN conda clean --all --yes
 
-RUN conda create -n multiqc --no-default-packages
-RUN conda install multiqc -n multiqc
-RUN conda clean --all --yes
 
-RUN mkdir -p /opt/
-RUN cd /opt/ && wget https://snpeff.blob.core.windows.net/versions/snpEff_latest_core.zip
-RUN unzip /opt/snpEff_latest_core.zip
-RUN mv snpEff /opt/
-RUN ln -s /opt/snpEff/snpEff.jar /usr/bin/snpEff.jar
-RUN ln -s /opt/snpEff/SnpSift.jar /usr/bin/SnpSift.jar
+#ENV PATH="${PATH}:/opt/conda/envs/:/opt/conda/envs/assembly-stats/bin:/opt/conda/envs/blobtools/bin:/opt/conda/envs/flye/bin:/opt/conda/envs/kraken2/bin:/opt/conda/envs/mummer4/bin:/opt/conda/envs/nanoplot/bin:/opt/conda/envs/quast/bin:/opt/conda/envs/ragtag/bin:/opt/conda/envs/sourmash/bin:/opt/conda/envs/blast/bin:/opt/conda/envs/diamond/bin:/opt/conda/envs/kaiju/bin:/opt/conda/envs/krona/bin:/opt/conda/envs/nanocomp/bin:/opt/conda/envs/porechop/bin:/opt/conda/envs/racon/bin:/opt/conda/envs/raven-assembler/bin:/opt/conda/envs/spades/bin:/opt/conda/envs/checkv/bin:/opt/conda/envs/medaka/bin"
+ENV PATH="${PATH}:/opt/conda/envs/:/opt/conda/envs/assembly-stats/bin:/opt/conda/envs/blobtools/bin:/opt/conda/envs/flye/bin:/opt/conda/envs/mummer4/bin:/opt/conda/envs/nanoplot/bin:/opt/conda/envs/quast/bin:/opt/conda/envs/ragtag/bin:/opt/conda/envs/diamond/bin:/opt/conda/envs/nanocomp/bin:/opt/conda/envs/racon/bin:/opt/conda/envs/raven-assembler/bin:/opt/conda/envs/syri_env/bin:/opt/conda/envs/busco/bin"
+#/opt/conda/envs/medaka/bin
+
+ENV export PATH="$PATH:/opt/samtools-1.11"
+
+ENV CPATH="${CPATH}:/opt/conda/envs/busco/include"
+
+#Dedicated install to ONT analyses, unpacked
+#RUN mkdir -p /opt/
 
 ## bwa mem2
-RUN mkdir -p /opt/bwa-mem2
-RUN cd /opt/bwa-mem2 && curl -L https://github.com/bwa-mem2/bwa-mem2/releases/download/v2.0pre2/bwa-mem2-2.0pre2_x64-linux.tar.bz2 | tar jxf -
-RUN ln -s /opt/bwa-mem2/bwa-mem2-2.0pre2_x64-linux/bwa-mem2.avx2 /usr/bin/bwa-mem2
-
-ENV PATH="${PATH}:/opt/conda/envs/:/opt/conda/envs/assembly-stats/bin:/opt/conda/envs/blobtools/bin:/opt/conda/envs/flye/bin:/opt/conda/envs/mummer/bin:/opt/conda/envs/nanoplot/bin:/opt/conda/envs/quast/bin:/opt/conda/envs/ragtag/bin:/opt/conda/envs/blast/bin:/opt/conda/envs/diamond/bin:/opt/conda/envs/nanocomp/bin:/opt/conda/envs/racon/bin:/opt/conda/envs/raven-assembler/bin:/opt/conda/envs/medaka/bin:/opt/conda/envs/gatk4/bin:/opt/conda/envs/syri_env/bin:/opt/conda/envs/breakdancer/bin:/opt/conda/envs/fastqc/bin:/opt/conda/envs/multiqc/bin"
-
-
-
-
+#RUN mkdir -p /opt/bwa-mem2
+#RUN cd /opt/bwa-mem2 && curl -L https://github.com/bwa-mem2/bwa-mem2/releases/download/v2.0pre2/bwa-mem2-2.0pre2_x64-linux.tar.bz2 | tar jxf -
+#RUN ln -s /opt/bwa-mem2/bwa-mem2-2.0pre2_x64-linux/bwa-mem2.avx2 /usr/bin/bwa-mem2
 
